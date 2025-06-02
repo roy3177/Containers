@@ -41,3 +41,44 @@ TEST_CASE("Test ascending iterator returns sorted order") {
 
     CHECK(result == std::vector<int>{3, 7, 9});
 }
+
+TEST_CASE("Test descending iterator returns sorted order(from biggest to smallest)") {
+    MyContainer<int> c;
+    c.addElements(9);
+    c.addElements(3);
+    c.addElements(12);
+    c.addElements(133);
+
+    std::vector<int> result;
+    std::vector<int>expected={133,12,9,3};
+    for (auto it = c.descendingBegin(); it != c.descendingEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    CHECK(result == expected);
+
+}
+
+
+TEST_CASE("Test descending iterator returns sorted order(from biggest to smallest)-->with duplicate values") {
+    MyContainer<int> c;
+    c.addElements(9);
+    c.addElements(3);
+    c.addElements(7);
+    c.addElements(7);
+    c.addElements(12);
+    c.addElements(133);
+
+    std::vector<int> result;
+    std::vector<int>expected={133,12,9,7,7,3};
+    for (auto it = c.descendingBegin(); it != c.descendingEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    CHECK(result == expected);
+
+}
+
+
+
+

@@ -131,6 +131,60 @@ public:
 
     };
 
+     /*
+    ********DescendingIterator********
+    This iterator allows iterating over the elements of MyContainer from the largest
+    to the smallest elmenet.
+    For example:if our container holds [3,7,1] , the iterator will yield 7,3,1.
+    */
+
+    class DescendingIterator{
+    
+    private:
+
+        std::vector<T> sorted_elements;
+        size_t index;
+
+    public:
+        
+        //Constructor:
+        DescendingIterator(const MyContainer& container){
+            sorted_elements=container.getElements();
+            std::sort(sorted_elements.begin(),sorted_elements.end(), std::greater<T>());
+            index=0;
+        }
+
+        //Returns the current value the iterator is pointing to:
+        T operator*() const{
+            return sorted_elements[index];
+        }
+
+
+        //Moves the iterator to the next element:
+        DescendingIterator& operator++(){
+            ++index; //Increase the index to move to the next element
+            return *this;
+        }
+
+
+        //Check wether two iteratoes are at different positions:
+        bool operator!=(const DescendingIterator& other)const{
+            return index!=other.index;
+        }
+
+
+        //Returns the number of elements in the sorted container:
+        size_t size() const {
+            return sorted_elements.size();
+        }
+
+        // Move iterator to end
+        void setToEnd() {
+            index = sorted_elements.size();
+        }
+
+    };
+
     //Returns an AscendingIterator pointing to the beginning:
     AscendingIterator ascendingBegin() const{
         return AscendingIterator(*this);
@@ -139,6 +193,18 @@ public:
     //Returns an AscendingIterator pointing to the end:
     AscendingIterator ascendingEnd() const{
         AscendingIterator it(*this);
+        it.setToEnd();
+        return it;
+    }
+
+    //Returns a DescendingIterator pointing to the beginning:
+    DescendingIterator descendingBegin() const{
+        return DescendingIterator(*this);
+    }
+
+    //Returns a DescendingIterator pointing to the end:
+    DescendingIterator descendingEnd() const{
+        DescendingIterator it(*this);
         it.setToEnd();
         return it;
     }

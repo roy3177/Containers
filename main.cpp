@@ -28,6 +28,14 @@ int main(){
         }
         std::cout<<"\n";
 
+        //Descending iteration:
+        std::cout << "Descending order iteration: ";
+        for (auto it = c.descendingBegin(); it != c.descendingEnd(); ++it) {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+
+
         //Remove elements:
         std::cout << "\nRemoving element 2...\n";
         c.remove(2);
