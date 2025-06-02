@@ -185,6 +185,51 @@ public:
 
     };
 
+    /*
+    ********SideCrossIterator********
+    This iterator allows iterating over the elements of MyContainer in a zigzag or 
+    "slide cross" order.
+    First , it yields the smalledt element, then the largest, then the second smallest,
+    then the second largest, and so on=>alternating from both ends of the sorted container inward.
+    For example:if our container holds [3,7,77,11,10,6,4,2,1] , the iterator will 
+    yield: 1,77,2,11,3,10,4,7,6
+    */
+
+    class SideCrossIterator{
+    
+    private:
+        std::vector<T> sorted_elements;
+        size_t left;
+        size_t right;
+        bool isLeftTurn; //true if it take from the left, false if it take from the right
+
+    public:
+        
+        //Constructor:
+        SideCrossIterator(const MyContainer& container)
+            :sorted_elements(container.getElements()), left(0) ,isLeftTurn(true){
+            std::sort(sorted_elements.begin(), sorted_elements.enf());
+            right=sorted_elements.size()-1;
+        }
+
+
+
+
+        
+        // Move iterator to end
+        void setToEnd() {
+            index = sorted_elements.size();
+        }
+
+
+
+
+
+
+
+    }
+
+
     //Returns an AscendingIterator pointing to the beginning:
     AscendingIterator ascendingBegin() const{
         return AscendingIterator(*this);
@@ -209,6 +254,7 @@ public:
         return it;
     }
 
+  
 };
 
 
