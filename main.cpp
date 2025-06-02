@@ -11,28 +11,42 @@ int main(){
         MyContainer<int> c;
         
         //Add elements:
-        c.addElements(1);
         c.addElements(2);
-        c.addElements(3);
+        c.addElements(1);
         c.addElements(4);
+        c.addElements(3);
 
-        //Print our container:
-        std::cout<< "Our initial container is : " << c << std::endl;
+        std::cout << "=== Initial container ===\n";
+        std::cout << "Container: " << c << std::endl;
+        std::cout << "Size: " << c.size() << "\n";
+
+
+        //Ascending iteration:
+        std::cout<< "Ascending order iteration: ";
+        for(auto it=c.ascendingBegin(); it!=c.ascendingEnd();++it){
+            std::cout<< *it << " ";
+        }
+        std::cout<<"\n";
 
         //Remove elements:
+        std::cout << "\nRemoving element 2...\n";
         c.remove(2);
-        
         std::cout<< "Our container now after we remove 2 is : " << c << std::endl;
+        std::cout << "Size: " << c.size() << "\n";
 
-        //Print size of the container:
-        std::cout << "The size of the container is : " << c.size() << std::endl;
+        std::cout << "Ascending order after removal: ";
+        for (auto it = c.ascendingBegin(); it != c.ascendingEnd(); ++it) {
+            std::cout << *it << " ";
+        }
+        std::cout << "\n";
 
         //Try to remove element that not in our continer-->throw exception:
+        std::cout << "\nAttempting to remove element 333...\n";
         c.remove(333);
     }
 
     catch(const std::exception& e){
-        std::cerr<< "Exception: " << e.what() << std::endl;
+        std::cerr << "Exception caught while removing element: " << e.what() << std::endl;
     }
 
     return 0;

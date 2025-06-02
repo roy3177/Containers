@@ -80,6 +80,70 @@ public:
         return elements;
     }
 
+
+    /*
+    ********AscendingIterator********
+    This iterator allows iterating over the elements of MyContainer in ascending order.
+    For example: if our container is [5,2,7] , our iterator will yield 2,5,7
+    */
+
+    class AscendingIterator{
+
+    private:
+
+        std::vector<T> sorted_elements;
+        size_t index;
+
+    public:
+        
+        //Constructor:
+        AscendingIterator(const MyContainer& container){
+            sorted_elements=container.getElements();
+            std::sort(sorted_elements.begin(),sorted_elements.end());
+            index=0;
+        }
+
+        //Returns the current value the iterator is pointing to:
+        T operator*() const{
+            return sorted_elements[index];
+        }
+
+        //Moves the iterator to the next element:
+        AscendingIterator& operator++(){
+            ++index; //Increase the index to move to the next element
+            return *this;
+        }
+
+        //Check wether two iteratoes are at different positions:
+        bool operator!=(const AscendingIterator& other)const{
+            return index!=other.index;
+        }
+
+        //Returns the number of elements in the sorted container:
+        size_t size() const {
+            return sorted_elements.size();
+        }
+
+
+        void setToEnd() {
+            index = sorted_elements.size();
+        }
+
+    };
+
+    //Returns an AscendingIterator pointing to the beginning:
+    AscendingIterator ascendingBegin() const{
+        return AscendingIterator(*this);
+    }
+
+    //Returns an AscendingIterator pointing to the end:
+    AscendingIterator ascendingEnd() const{
+        AscendingIterator it(*this);
+        it.setToEnd();
+        return it;
+    }
+
 };
+
 
 }
