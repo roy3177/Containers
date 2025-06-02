@@ -42,6 +42,20 @@ int main(){
         }
         std::cout << std::endl;
 
+        //Reverse order iteration:
+        std::cout << "Reverse order iteration: ";
+        for (auto it = c.reverseBegin(); it != c.reverseEnd(); ++it) {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+
+        //Order iteration (insertion order):
+        std::cout << "Order iteration (insertion order): ";
+        for (auto it = c.orderBegin(); it != c.orderEnd(); ++it) {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+
         
         //Remove elements:
         std::cout << "\nRemoving element 2...\n";

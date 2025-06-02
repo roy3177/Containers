@@ -252,6 +252,100 @@ public:
         }
     };
 
+     /*
+    ********ReverseOrderIterator ********
+    This iterator scans the container in reverse insertion order.
+    For example, if the elements were inserted as [7,15,6,1,2] , the iterator will
+    yield 2,1,6,15,7
+    */
+
+    class ReverseOrderIterator{
+
+    private:
+        const std::vector<T>& original_elements;
+        size_t index;
+    
+    public:
+
+        //Constructor: receives the original vector by reference
+        ReverseOrderIterator(const MyContainer& container)
+            : original_elements(container.getElements()),
+             index(container.size() ? container.size() - 1 : 0) {}
+
+        //Returns the current value the iterator is pointing to:
+        T operator*() const {
+            return original_elements[index];
+        }
+
+        // Prefix increment:
+        ReverseOrderIterator& operator++(){
+
+            //If we did not came to the start of the bector==>move down the index by one:
+            if(index>0){
+                --index;
+            }
+            else{
+                index=static_cast<size_t>(-1); //save the first elment==>for show that we are at the end of the scanning.
+            }
+            return *this;
+        }
+
+        // checks if iterators are at different positions:
+        bool operator!=(const ReverseOrderIterator& other)const{
+            return index!=other.index;
+        }
+
+        size_t getIndex() const {
+            return index;
+        }
+
+        //Indicate that the iterator is at the end of the iteration stage:
+        void setToEnd() {
+            index = static_cast<size_t>(-1);
+        }
+    };
+
+     /*
+    ********OrderIterator********
+    This iterator is a simple iterator that scans the conntainer in the original
+    order in which the elements were inserted.
+    For example, if the container contains [1,2,4,5], then iterating with OrderIterator
+    will return the elements in that same order 1,2,4,5
+    */
+    class OrderIterator{
+
+    private:
+        const std::vector<T>& original_elements;
+        size_t index;
+
+    public:
+
+        //Constructor:
+        OrderIterator(const MyContainer& container)
+        : original_elements(container.getElements()), index(0) {}
+
+
+        //Returns the current value the iterator is pointing to:
+        T operator*() const {
+            return original_elements[index];
+        }
+
+        // Prefix increment
+        OrderIterator& operator++() {
+            ++index;
+            return *this;
+        }
+
+        // checks if iterators are at different positions:
+        bool operator!=(const OrderIterator& other)const{
+            return index!=other.index;
+        }
+
+        // Set to end
+        void setToEnd() {
+            index = original_elements.size();
+        }
+    };
 
     //Returns an AscendingIterator pointing to the beginning:
     AscendingIterator ascendingBegin() const{
@@ -289,7 +383,28 @@ public:
         return it;
     }
 
-  
+    // Begin for reverse iterator
+    ReverseOrderIterator reverseBegin() const {
+        return ReverseOrderIterator(*this);
+    }
+
+    // End for reverse iterator
+    ReverseOrderIterator reverseEnd() const {
+        ReverseOrderIterator it(*this);
+        it.setToEnd();
+        return it;
+    }
+    
+    OrderIterator orderBegin() const {
+        return OrderIterator(*this);
+    }
+
+    OrderIterator orderEnd() const {
+        OrderIterator it(*this);
+        it.setToEnd();
+        return it;
+    }
+
 };
 
 

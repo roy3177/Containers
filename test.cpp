@@ -98,3 +98,36 @@ TEST_CASE("Test side cross iterator zigzag order") {
 }
 
 
+TEST_CASE("Test reverse order iterator returns reverse insertion order") {
+    MyContainer<int> c;
+    c.addElements(7);
+    c.addElements(15);
+    c.addElements(6);
+    c.addElements(1);
+    c.addElements(2);
+
+    std::vector<int> result;
+    for (auto it = c.reverseBegin(); it != c.reverseEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    std::vector<int> expected = {2, 1, 6, 15, 7};  // reverse of insertion order
+    CHECK(result == expected);
+}
+
+TEST_CASE("Test order iterator returns insertion order") {
+    MyContainer<int> c;
+    c.addElements(7);
+    c.addElements(15);
+    c.addElements(6);
+    c.addElements(1);
+    c.addElements(2);
+
+    std::vector<int> result;
+    for (auto it = c.orderBegin(); it != c.orderEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    std::vector<int> expected = {7, 15, 6, 1, 2};  // insertion order
+    CHECK(result == expected);
+}
