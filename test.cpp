@@ -80,5 +80,21 @@ TEST_CASE("Test descending iterator returns sorted order(from biggest to smalles
 }
 
 
+TEST_CASE("Test side cross iterator zigzag order") {
+    MyContainer<int> c;
+    c.addElements(7);
+    c.addElements(1);
+    c.addElements(2);
+    c.addElements(15);
+    c.addElements(6);
+
+    std::vector<int> result;
+    for (auto it = c.sideCrossBegin(); it != c.sideCrossEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    std::vector<int> expected = {1, 15, 2, 7, 6}; // zigzag order
+    CHECK(result == expected);
+}
 
 

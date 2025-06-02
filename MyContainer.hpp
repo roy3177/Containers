@@ -208,26 +208,49 @@ public:
         //Constructor:
         SideCrossIterator(const MyContainer& container)
             :sorted_elements(container.getElements()), left(0) ,isLeftTurn(true){
-            std::sort(sorted_elements.begin(), sorted_elements.enf());
+            std::sort(sorted_elements.begin(), sorted_elements.end());
             right=sorted_elements.size()-1;
         }
 
-
-
-
-        
-        // Move iterator to end
-        void setToEnd() {
-            index = sorted_elements.size();
+        //Returns the current value the iterator is pointing to:
+        T operator*()const{
+            return isLeftTurn ? sorted_elements[left] : sorted_elements[right];
         }
 
+        // Prefix increment
+        SideCrossIterator& operator++() {
+            //If we passed all the elements:
+            if (left > right){
+                return *this; // Already at end
+            }
 
+            //Left turn:
+            if (isLeftTurn) {
+                ++left;
+            }
+                
+            //Right turn:
+            else {
+                --right;
+            }
+                
+            //flip the side:
+            isLeftTurn = !isLeftTurn;
+            return *this;
+        }
 
+        // Inequality operator
+        //If left>right=>we finish scan the elements:
+        bool operator!=(const SideCrossIterator& ) const {
+            return left <= right;
+        }
 
-
-
-
-    }
+        // Move iterator to end
+        void setToEnd() {
+            left=sorted_elements.size();
+            right=0;
+        }
+    };
 
 
     //Returns an AscendingIterator pointing to the beginning:
@@ -250,6 +273,18 @@ public:
     //Returns a DescendingIterator pointing to the end:
     DescendingIterator descendingEnd() const{
         DescendingIterator it(*this);
+        it.setToEnd();
+        return it;
+    }
+
+    //Returns a SideCrossIterator pointing to the beginning:
+    SideCrossIterator sideCrossBegin() const {
+        return SideCrossIterator(*this);
+    }
+
+    //Returns a SideCrossIterator pointing to the end:
+    SideCrossIterator sideCrossEnd() const {
+        SideCrossIterator it(*this);
         it.setToEnd();
         return it;
     }

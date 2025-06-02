@@ -35,7 +35,14 @@ int main(){
         }
         std::cout << std::endl;
 
+        //SideCross iteration:
+        std::cout << "SideCross order iteration: ";
+        for (auto it = c.sideCrossBegin(); it != c.sideCrossEnd(); ++it) {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
 
+        
         //Remove elements:
         std::cout << "\nRemoving element 2...\n";
         c.remove(2);
