@@ -164,3 +164,190 @@ TEST_CASE("Middle-out iterator with even number of elements"){
     std::vector<int>expected={20,10,30,40};
     CHECK(result==expected);
 }
+
+TEST_CASE("All iteratoes on empty container"){
+    MyContainer<int>c;
+
+    CHECK(c.size()==0);
+
+    CHECK(c.ascendingBegin() == c.ascendingEnd());
+    CHECK(c.descendingBegin() == c.descendingEnd());
+    CHECK(c.orderBegin() == c.orderEnd());
+    CHECK(c.middleOutBegin() == c.middleOutEnd());
+    
+}
+
+TEST_CASE("Remove duplicates") {
+    MyContainer<int> c;
+    c.addElements(4);
+    c.addElements(4);
+    c.addElements(4);
+    c.addElements(5);
+
+    c.remove(4);  //Need to remove every 4
+
+    CHECK(c.size() == 1);
+    CHECK_THROWS(c.remove(4));
+}
+
+TEST_CASE("Reverse iterator matches reverse of insertion order") {
+    MyContainer<int> c;
+    std::vector<int> inserted = {8, 6, 9, 3};
+    for (int val : inserted) {
+        c.addElements(val);
+    }
+
+    std::vector<int> reversed;
+    for (auto it = c.reverseBegin(); it != c.reverseEnd(); ++it) {
+        reversed.push_back(*it);
+    }
+
+    std::reverse(inserted.begin(), inserted.end());
+    CHECK(reversed == inserted);
+}
+
+TEST_CASE("All iterators work correctly after element removal") {
+    MyContainer<int> c;
+    c.addElements(10);
+    c.addElements(5);
+    c.addElements(20);
+    c.addElements(15);
+
+    c.remove(10);
+    c.remove(20);
+
+    std::vector<int> ascending;
+    for (auto it = c.ascendingBegin(); it != c.ascendingEnd(); ++it) {
+        ascending.push_back(*it);
+    }
+    CHECK(ascending == std::vector<int>{5, 15});
+
+    std::vector<int> descending;
+    for (auto it = c.descendingBegin(); it != c.descendingEnd(); ++it) {
+        descending.push_back(*it);
+    }
+    CHECK(descending == std::vector<int>{15, 5});
+
+    std::vector<int> middle;
+    for (auto it = c.middleOutBegin(); it != c.middleOutEnd(); ++it) {
+        middle.push_back(*it);
+    }
+    CHECK(middle == std::vector<int>{5, 15});
+}
+
+TEST_CASE("Adding duplicate and removing all of them") {
+    MyContainer<int> c;
+    c.addElements(1);
+    c.addElements(1);
+    c.addElements(1);
+
+    CHECK(c.size() == 3);
+    c.remove(1); //Need to remove all the elements
+    CHECK(c.size() == 0);
+}
+
+TEST_CASE("Iterators remain valid after partial removal") {
+    MyContainer<int> c;
+    c.addElements(5);
+    c.addElements(10);
+    c.addElements(15);
+
+    c.remove(10);
+
+    std::vector<int> result;
+    for (auto it = c.ascendingBegin(); it != c.ascendingEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    CHECK(result == std::vector<int>{5, 15});
+}
+
+TEST_CASE("Removing from empty container throws") {
+    MyContainer<int> c;
+    CHECK_THROWS_AS(c.remove(1), std::invalid_argument);
+}
+
+TEST_CASE("Mixed positive and negative numbers in iterators") {
+    MyContainer<int> c;
+    c.addElements(3);
+    c.addElements(-5);
+    c.addElements(0);
+    c.addElements(12);
+
+    std::vector<int> asc;
+    for (auto it = c.ascendingBegin(); it != c.ascendingEnd(); ++it) {
+        asc.push_back(*it);
+    }
+
+    CHECK(asc == std::vector<int>{-5, 0, 3, 12});
+}
+
+TEST_CASE("String container ==> insertion and ascending order"){
+    MyContainer<std::string> c; 
+    c.addElements("delta");
+    c.addElements("alpha");
+    c.addElements("charles");
+    c.addElements("bravo");
+
+    std::vector<std::string> result;
+    for(auto it=c.ascendingBegin(); it!=c.ascendingEnd();++it){
+        result.push_back(*it);
+    }
+
+    std::vector<std::string> expected={"alpha","bravo","charles","delta"};
+    CHECK(result==expected);
+}
+
+TEST_CASE("String container - remove element and check size") {
+    MyContainer<std::string> c;
+    c.addElements("foo");
+    c.addElements("bar");
+    c.remove("foo");
+
+    CHECK(c.size() == 1);
+    CHECK_THROWS_AS(c.remove("not_in_container"), std::invalid_argument);
+}
+
+TEST_CASE("Double container - insertion and descending order") {
+    MyContainer<double> c;
+    c.addElements(3.14);
+    c.addElements(2.71);
+    c.addElements(1.41);
+    c.addElements(-1.0);
+
+    std::vector<double> result;
+    for (auto it = c.descendingBegin(); it != c.descendingEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    std::vector<double> expected = {3.14, 2.71, 1.41, -1.0};
+    CHECK(result == expected);
+}
+
+TEST_CASE("Double container - middle-out iterator") {
+    MyContainer<double> c;
+    c.addElements(3.14);
+    c.addElements(2.71);
+    c.addElements(1.41);
+    c.addElements(0.577);
+    c.addElements(6.28);
+
+    std::vector<double> result;
+    for (auto it = c.middleOutBegin(); it != c.middleOutEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    std::vector<double> expected = {1.41, 2.71, 0.577, 3.14, 6.28};
+    CHECK(result == expected);
+}
+
+TEST_CASE("Double container - remove and exception") {
+    MyContainer<double> c;
+    c.addElements(1.1);
+    c.addElements(2.2);
+
+    c.remove(1.1);
+    CHECK(c.size() == 1);
+
+    CHECK_THROWS_AS(c.remove(3.3), std::invalid_argument);
+}

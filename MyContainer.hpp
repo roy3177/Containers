@@ -119,6 +119,10 @@ public:
             return index!=other.index;
         }
 
+         bool operator==(const AscendingIterator& other)const{
+            return index==other.index;
+        }
+
         //Returns the number of elements in the sorted container:
         size_t size() const {
             return sorted_elements.size();
@@ -170,6 +174,10 @@ public:
         //Check wether two iteratoes are at different positions:
         bool operator!=(const DescendingIterator& other)const{
             return index!=other.index;
+        }
+
+        bool operator==(const DescendingIterator& other)const{
+            return index==other.index;
         }
 
 
@@ -343,6 +351,10 @@ public:
             return index!=other.index;
         }
 
+        bool operator==(const OrderIterator& other)const{
+            return index==other.index;
+        }
+
         // Set to end
         void setToEnd() {
             index = original_elements.size();
@@ -418,6 +430,10 @@ public:
         // checks if iterators are at different positions:
         bool operator!=(const MiddleOutOrderIterator& other) const {
             return index != other.index;
+        }
+
+        bool operator==(const MiddleOutOrderIterator& other) const {
+            return index == other.index;
         }
 
         void setToEnd() {
