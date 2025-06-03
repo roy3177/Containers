@@ -148,3 +148,19 @@ TEST_CASE("Test middle-out iterator with odd number of elements") {
     std::vector<int> expected = {6, 15, 1, 7, 2};
     CHECK(result == expected);
 }
+
+TEST_CASE("Middle-out iterator with even number of elements"){
+    MyContainer<int> c;
+    c.addElements(10);
+    c.addElements(20);
+    c.addElements(30);
+    c.addElements(40);
+
+    std::vector<int>result;
+    for(auto it=c.middleOutBegin(); it!=c.middleOutEnd();++it){
+        result.push_back(*it);
+    }
+
+    std::vector<int>expected={20,10,30,40};
+    CHECK(result==expected);
+}

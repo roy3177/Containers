@@ -5,98 +5,82 @@
 
 using namespace container;
 
+template<typename Iterator>
+
+//Method for printing iterators:
+void printIterator(const std::string& label, Iterator begin, Iterator end){
+    std::cout<<label<<": ";
+    for(auto it=begin;it!=end;++it){
+        std::cout<<*it<<" ";
+    }
+    std::cout<<"\n";
+}
+
 int main(){
 
     try{
 
-
-        container::MyContainer<int> mc;
-        mc.addElements(7);
-        mc.addElements(15);
-        mc.addElements(6);
-        mc.addElements(1);
-        mc.addElements(2);
+        MyContainer<int>firstContainer;
+        firstContainer.addElements(7);
+        firstContainer.addElements(211);
+        firstContainer.addElements(6);
+        firstContainer.addElements(1);
+        firstContainer.addElements(-12);
+        firstContainer.addElements(14);
+        firstContainer.addElements(10);
+        firstContainer.addElements(9);
 
 
         std::cout << "============= First container =============\n";
-        std::cout << "Container: " << mc << std::endl;
-        std::cout << "Size: " << mc.size() << "\n";
+        std::cout << "\nContainer: " << firstContainer << std::endl;
+        std::cout << "Size: " << firstContainer.size() << "\n";
 
-        for (auto it = mc.middleOutBegin(); it != mc.middleOutEnd(); ++it) {
-            std::cout << *it << " ";
-        }
+        printIterator("MiddleOut order", firstContainer.middleOutBegin(), firstContainer.middleOutEnd());
         std::cout<<"\n";
 
 
-        MyContainer<int> c;
-        
-        //Add elements:
-        c.addElements(2);
-        c.addElements(1);
-        c.addElements(4);
-        c.addElements(3);
+        MyContainer<int>secondContainer;
+        secondContainer.addElements(77);
+        secondContainer.addElements(14);
+        secondContainer.addElements(4);
+        secondContainer.addElements(33);
+   
 
         std::cout << "============= Second container =============\n";
-        std::cout << "Container: " << c << std::endl;
-        std::cout << "Size: " << c.size() << "\n";
+        std::cout << "\nContainer: " << secondContainer << std::endl;
+        std::cout << "Size: " << secondContainer.size() << "\n";
 
 
-        //Ascending iteration:
-        std::cout<< "Ascending order iteration: ";
-        for(auto it=c.ascendingBegin(); it!=c.ascendingEnd();++it){
-            std::cout<< *it << " ";
-        }
+        // Print all iterator types
+        printIterator("Ascending order", secondContainer.ascendingBegin(), secondContainer.ascendingEnd());
+        printIterator("Descending order", secondContainer.descendingBegin(), secondContainer.descendingEnd());
+        printIterator("SideCross order", secondContainer.sideCrossBegin(), secondContainer.sideCrossEnd());
+        printIterator("Reverse order", secondContainer.reverseBegin(), secondContainer.reverseEnd());
+        printIterator("Insertion order", secondContainer.orderBegin(), secondContainer.orderEnd());
+        printIterator("MiddleOut order", secondContainer.middleOutBegin(), secondContainer.middleOutEnd());
+
         std::cout<<"\n";
-
-        //Descending iteration:
-        std::cout << "Descending order iteration: ";
-        for (auto it = c.descendingBegin(); it != c.descendingEnd(); ++it) {
-            std::cout << *it << " ";
-        }
-        std::cout << std::endl;
-
-        //SideCross iteration:
-        std::cout << "SideCross order iteration: ";
-        for (auto it = c.sideCrossBegin(); it != c.sideCrossEnd(); ++it) {
-            std::cout << *it << " ";
-        }
-        std::cout << std::endl;
-
-        //Reverse order iteration:
-        std::cout << "Reverse order iteration: ";
-        for (auto it = c.reverseBegin(); it != c.reverseEnd(); ++it) {
-            std::cout << *it << " ";
-        }
-        std::cout << std::endl;
-
-        //Order iteration (insertion order):
-        std::cout << "Order iteration (insertion order): ";
-        for (auto it = c.orderBegin(); it != c.orderEnd(); ++it) {
-            std::cout << *it << " ";
-        }
-        std::cout << std::endl;
 
         
         //Remove elements:
-        std::cout << "\nRemoving element 2...\n";
-        c.remove(2);
-        std::cout<< "Our container now after we remove 2 is : " << c << std::endl;
-        std::cout << "Size: " << c.size() << "\n";
+        std::cout << "\nRemoving element 4...\n";
+        secondContainer.remove(4);
+        std::cout<< "Our container now after we remove 4 is : " << secondContainer << std::endl;
+        std::cout << "Size: " << secondContainer.size() << "\n";
 
-        std::cout << "Ascending order after removal: ";
-        for (auto it = c.ascendingBegin(); it != c.ascendingEnd(); ++it) {
-            std::cout << *it << " ";
-        }
+        printIterator("Ascending after removal", secondContainer.ascendingBegin(), secondContainer.ascendingEnd());
         std::cout << "\n";
 
         //Try to remove element that not in our continer-->throw exception:
         std::cout << "\nAttempting to remove element 333...\n";
-        c.remove(333);
+        secondContainer.remove(333);
     }
 
     catch(const std::exception& e){
         std::cerr << "Exception caught while removing element: " << e.what() << std::endl;
+         std::cout<<"\n";
     }
 
+           
     return 0;
 }
