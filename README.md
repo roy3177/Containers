@@ -3,20 +3,15 @@
 This project implements a generic, header-only C++ container `MyContainer<T>`, which supports multiple types of traversal patterns via custom iterators.  
 
 
-##  Project Structure
+## Project Structure
 
-CONTAINERS
-├── MyContainer.hpp
-|
-├── test.cpp
-|
-├── doctest.h
-|
-├── main.cpp
-|
-├── makefile
-|
-└── README.md
+- `MyContainer.hpp` – Templated container class
+- `test.cpp` – Unit tests
+- `main.cpp` – Example usage with int, string, double
+- `doctest.h` – Test framework
+- `makefile` – Build instructions
+- `README.md` – This documentation
+
 
 
 ##  Features
