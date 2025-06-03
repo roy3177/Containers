@@ -7,10 +7,15 @@ This project implements a generic, header-only C++ container `MyContainer<T>`, w
 
 CONTAINERS
 ├── MyContainer.hpp
-├── test.cpp  
+|
+├── test.cpp
+|
 ├── doctest.h
+|
 ├── main.cpp
+|
 ├── makefile
+|
 └── README.md
 
 
