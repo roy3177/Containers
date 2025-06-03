@@ -131,3 +131,20 @@ TEST_CASE("Test order iterator returns insertion order") {
     std::vector<int> expected = {7, 15, 6, 1, 2};  // insertion order
     CHECK(result == expected);
 }
+
+TEST_CASE("Test middle-out iterator with odd number of elements") {
+    MyContainer<int> c;
+    c.addElements(7);
+    c.addElements(15);
+    c.addElements(6);
+    c.addElements(1);
+    c.addElements(2);
+
+    std::vector<int> result;
+    for (auto it = c.middleOutBegin(); it != c.middleOutEnd(); ++it) {
+        result.push_back(*it);
+    }
+
+    std::vector<int> expected = {6, 15, 1, 7, 2};
+    CHECK(result == expected);
+}

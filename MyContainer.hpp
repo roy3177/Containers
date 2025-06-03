@@ -305,13 +305,15 @@ public:
         }
     };
 
-     /*
+    
+      /*
     ********OrderIterator********
     This iterator is a simple iterator that scans the conntainer in the original
     order in which the elements were inserted.
     For example, if the container contains [1,2,4,5], then iterating with OrderIterator
     will return the elements in that same order 1,2,4,5
     */
+
     class OrderIterator{
 
     private:
@@ -345,6 +347,84 @@ public:
         void setToEnd() {
             index = original_elements.size();
         }
+    };
+
+
+     /*
+    ********MiddleOutOrderIterator********
+    This iterator scans the container from the middle outward:
+    It starts with the middle element of the container,then it alternates:
+    one step to the left of the middle(-1), then one step to the right of the middle(+1), and
+    continues this alternating pattern until all the elements are visited.
+    For example, given the container [7,15,6,1,2] , the iteration order : 6,15,1,7,2
+    */
+
+    class MiddleOutOrderIterator{
+
+    private:
+        const std::vector<T>& elements;
+        std::vector<size_t> accessOrder; //Index list that introduce the access order.
+        size_t index;
+    
+    public:
+
+        //Constructor:
+        MiddleOutOrderIterator(const MyContainer& container):
+            elements(container.getElements()), index(0){
+            size_t n=elements.size();
+
+            //If the container is empty:
+            if(n==0){
+                return;
+            }
+
+            //Compute the middle of the vector:
+            //If the element is even=>starting with the left element between the two:
+            size_t mid=n/2;
+            if(n%2==0){
+                mid--;
+            }
+
+            //Adding the index of the middle element as the first in the accessOrder:
+            accessOrder.push_back(mid);
+
+            //Loop that visited all the distances from the middle to outside:
+            for(size_t offset=1;offset<=mid || mid+offset<n;++offset){
+                if (mid >= offset){
+                    accessOrder.push_back(mid - offset);
+                }
+
+                if (mid + offset < n){ 
+                    accessOrder.push_back(mid + offset);
+                }
+            }       
+        }
+
+        //Returns the current value the iterator is pointing to:
+        T operator*()const{
+            if(index>=accessOrder.size()){
+                throw std::out_of_range("Moddleout iterator out of range"); 
+            }
+
+            return elements[accessOrder[index]];
+        }
+
+        // Prefix increment:
+        MiddleOutOrderIterator& operator++() {
+            ++index;
+            return *this;
+        }
+
+        // checks if iterators are at different positions:
+        bool operator!=(const MiddleOutOrderIterator& other) const {
+            return index != other.index;
+        }
+
+        void setToEnd() {
+            index = accessOrder.size();
+        }
+
+        
     };
 
     //Returns an AscendingIterator pointing to the beginning:
@@ -404,6 +484,19 @@ public:
         it.setToEnd();
         return it;
     }
+
+    // Begin for MiddleOutOrderIterator
+    MiddleOutOrderIterator middleOutBegin() const {
+        return MiddleOutOrderIterator(*this);
+    }
+
+    // End for MiddleOutOrderIterator
+    MiddleOutOrderIterator middleOutEnd() const {
+        MiddleOutOrderIterator it(*this);
+        it.setToEnd();
+        return it;
+    }
+
 
 };
 

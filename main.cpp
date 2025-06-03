@@ -8,6 +8,26 @@ using namespace container;
 int main(){
 
     try{
+
+
+        container::MyContainer<int> mc;
+        mc.addElements(7);
+        mc.addElements(15);
+        mc.addElements(6);
+        mc.addElements(1);
+        mc.addElements(2);
+
+
+        std::cout << "============= First container =============\n";
+        std::cout << "Container: " << mc << std::endl;
+        std::cout << "Size: " << mc.size() << "\n";
+
+        for (auto it = mc.middleOutBegin(); it != mc.middleOutEnd(); ++it) {
+            std::cout << *it << " ";
+        }
+        std::cout<<"\n";
+
+
         MyContainer<int> c;
         
         //Add elements:
@@ -16,7 +36,7 @@ int main(){
         c.addElements(4);
         c.addElements(3);
 
-        std::cout << "=== Initial container ===\n";
+        std::cout << "============= Second container =============\n";
         std::cout << "Container: " << c << std::endl;
         std::cout << "Size: " << c.size() << "\n";
 
