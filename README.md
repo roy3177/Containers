@@ -57,7 +57,7 @@ This project includes input validation,exception handling,and extensive unit tes
 
 ## Installation and Usage
 
-**Compilation:**To compile, using the provided Makefile:
+**Compilation:** To compile, using the provided Makefile:
 ```bash 
 make
 ```
